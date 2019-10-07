@@ -100,5 +100,27 @@ public class DaoSacole {
             return false;
         }
     }
-     
+      public static Sacole consultar(int primaryKey) {
+        //editar o SQL conforme a entidade
+        String sql = "SELECT codigo, nr_serie, preco, data_validade, sabor FROM Sacole WHERE codigo=?";
+        PreparedStatement ps;
+        try {
+            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+            ps.setInt(1, primaryKey);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Sacole objeto = new Sacole();
+                //definir um set para cada atributo da entidade, cuidado com o tipo
+                objeto.setCodigo(rs.getInt("codigo"));
+                objeto.setNr_serie(rs.getInt("nr_serie"));
+                objeto.setPreco(rs.getDouble("preco"));
+                objeto.setData_validade(LocalDate.parse("11/01/1988", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                objeto.setSabor(rs.getString("sabor"));
+                return objeto;//não mexa nesse, ele adiciona o objeto na lista
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
 }

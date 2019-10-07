@@ -30,7 +30,12 @@ public class ControladorSacole {
         boolean resultado = DaoSacole.inserir(objeto);
         if (resultado) {
             JOptionPane.showMessageDialog(null, "Inserido com sucesso!");
-        } else {
+        } else if (man.listagem != null) {
+     atualizarTabela(man.listagem.tabela); //atualizar a tabela da listagem
+}
+man.dispose();//fechar a tela da manutenção
+        
+        {
             JOptionPane.showMessageDialog(null, "Erro!");
         }
 }
@@ -69,7 +74,11 @@ public class ControladorSacole {
         boolean resultado = DaoSacole.alterar(objeto);
         if (resultado) {
             JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
-        } else {
+        } else if (man.listagem != null) {
+     atualizarTabela(man.listagem.tabela); //atualizar a tabela da listagem
+}
+man.dispose();//fechar a tela da manutenção 
+        {
             JOptionPane.showMessageDialog(null, "Erro!");
         }
     }
@@ -81,9 +90,25 @@ public class ControladorSacole {
         boolean resultado = DaoSacole.excluir(objeto);
         if (resultado) {
             JOptionPane.showMessageDialog(null, "Excluído com sucesso!");
-        } else {
+        } else if (man.listagem != null) {
+     atualizarTabela(man.listagem.tabela); //atualizar a tabela da listagem
+}
+man.dispose();//fechar a tela da manutenção
+        
+        {
             JOptionPane.showMessageDialog(null, "Erro!");
         }
     }
-     
+     public static void atualizaCampos(ManutencaoSacole man, int pk){ 
+        Sacole objeto = DaoSacole.consultar(pk);
+        //Definindo os valores do campo na tela (um para cada atributo/campo)
+        man.jtfcodigo.setText(objeto.getCodigo().toString());
+        man.jtfnr_serie.setText(objeto.getNr_serie().toString());
+        man.jtfpreco.setText(objeto.getPreco().toString());
+        man.jtfdata_validade.setText(objeto.getData_validade().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        man.jtfsabor.setText(objeto.getSabor());
+        
+        man.jtfcodigo.setEnabled(false); //desabilitando o campo código
+        man.btnAdicionar.setEnabled(false); //desabilitando o botão adicionar
+    }
 }
